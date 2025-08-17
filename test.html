@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Công cụ So sánh Nhà cung cấp PMS (Phiên bản Hoàn chỉnh)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      th,
+      td {
+        border: 1px solid #e2e8f0;
+        padding: 10px;
+        vertical-align: top;
+        text-align: left;
+        min-width: 150px;
+      }
+      th:first-child,
+      td:first-child {
+        min-width: 280px;
+        font-weight: 500;
+      }
+      th {
+        background-color: #f8fafc;
+        font-weight: 600;
+      }
+      td {
+        background-color: #ffffff;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      .tab-btn {
+        background-color: transparent;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        padding: 0.75rem 0.5rem;
+        margin-bottom: -1px;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: #4b5563;
+        transition: all 150ms;
+      }
+      .tab-btn:hover {
+        color: #059669;
+      }
+      .tab-btn.active {
+        border-color: #059669;
+        color: #047857;
+        font-weight: 500;
+      }
+      td[contenteditable="true"] {
+        background-color: #fefce8;
+      }
+      td[contenteditable="true"]:focus {
+        outline: 2px solid #059669;
+        background-color: #ffffff;
+      }
+      .chart-container {
+        border: 1px solid #e2e8f0;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        background-color: #fff;
+      }
+      .evaluation-basis {
+        font-size: 0.8rem;
+        color: #475569;
+        background-color: #f1f5f9 !important;
+        padding: 6px 10px;
+      }
+      .group-score-display {
+        font-weight: bold;
+      }
+      .group-score-display .max-score {
+        color: #64748b;
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800 p-4 sm:p-6 md:p-8">
+    <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg p-6">
+      <div
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6"
+      >
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">
+            Công cụ So sánh Nhà cung cấp Phần mềm Quản lý Khách sạn (PMS)
+          </h1>
+          <p class="mt-1 text-gray-500">
+            Phiên bản hoàn chỉnh, kết hợp tiêu chuẩn Oracle OPERA và tiêu chí
+            thực tiễn từ ezCloud.
+          </p>
+        </div>
+        <button
+          id="export-btn"
+          class="mt-4 sm:mt-0 w-full sm:w-auto bg-emerald-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-emerald-700 transition duration-300 flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 10-1.09-1.03l-2.905 3.079V2.75z"
+            />
+            <path
+              d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"
+            />
+          </svg>
+          Xuất ra Excel
+        </button>
+      </div>
+
+      <div class="border-b border-gray-200 mb-6 overflow-x-auto">
+        <nav class="flex -mb-px" aria-label="Tabs">
+          <button class="tab-btn active whitespace-nowrap" data-tab="tab1">
+            1. Thông tin chung
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab1-5">
+            2. Đội ngũ & Quy trình
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab2">
+            3. Bảng Chấm Điểm
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab3">
+            4. Chức năng & Phân hệ
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab4">
+            5. Tích hợp & Công nghệ
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab5">
+            6. Chi phí
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab6">
+            7. Triển khai & Hỗ trợ
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab7">
+            8. Dashboard
+          </button>
+          <button class="tab-btn whitespace-nowrap" data-tab="tab8">
+            9. Đánh giá SWOT
+          </button>
+        </nav>
+      </div>
+
+      <div id="tab-container" class="overflow-x-auto">
+        <div id="tab1" class="tab-content active">
+          <h3 class="font-semibold mb-2">1. Thông tin chung về Nhà cung cấp</h3>
+          <table id="table-1" class="w-full text-sm"></table>
+        </div>
+        <div id="tab1-5" class="tab-content">
+          <h3 class="font-semibold mb-2">
+            2. Phân tích Đội ngũ & Quy trình triển khai
+          </h3>
+          <table id="table-1-5" class="w-full text-sm"></table>
+        </div>
+        <div id="tab2" class="tab-content">
+          <h3 class="font-semibold mb-2">3. Bảng Chấm Điểm Tổng Hợp</h3>
+          <p class="text-sm text-gray-500 mb-4">
+            Chấm điểm cho từng tiêu chí con (thang 0-10). Điểm nhóm và Tổng điểm
+            sẽ được tự động tính toán.
+          </p>
+          <table id="table-2" class="w-full text-sm"></table>
+        </div>
+        <div id="tab3" class="tab-content">
+          <h3 class="font-semibold mb-2">
+            4. Phân tích Chức năng & Phân hệ PMS
+          </h3>
+          <table id="table-3" class="w-full text-sm"></table>
+        </div>
+        <div id="tab4" class="tab-content">
+          <h3 class="font-semibold mb-2">5. Phân tích Tích hợp & Công nghệ</h3>
+          <table id="table-4" class="w-full text-sm"></table>
+        </div>
+        <div id="tab5" class="tab-content">
+          <h3 class="font-semibold mb-2">6. Phân tích Chi phí</h3>
+          <table id="table-5" class="w-full text-sm"></table>
+        </div>
+        <div id="tab6" class="tab-content">
+          <h3 class="font-semibold mb-2">
+            7. Thông tin về Triển khai & Hỗ trợ
+          </h3>
+          <table id="table-6" class="w-full text-sm"></table>
+        </div>
+
+        <div id="tab7" class="tab-content">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-semibold text-xl">
+              8. Dashboard - Bảng điều khiển Trực quan
+            </h3>
+            <button
+              id="update-charts-btn"
+              class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300 flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M15.312 11.424a5.5 5.5 0 01-9.201-4.46_5.5 5.5 0 011.643-1.644l.11-.112a.75.75 0 011.06 1.06l-.11.112a4 4 0 00-1.196 1.196 4.002 4.002 0 006.585 3.235l.233.233A5.5 5.5 0 0115.312 11.424zM18.75 13a.75.75 0 01-.75.75h-3.5a.75.75 0 010-1.5h2.323l-3.3-3.3a.75.75 0 111.06-1.06l3.3 3.3V8.5a.75.75 0 011.5 0v3.75c0 .414-.336.75-.75.75z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Cập nhật Biểu đồ & Bảng
+            </button>
+          </div>
+          <div class="space-y-8">
+            <div class="chart-container">
+              <h4 class="font-bold text-center mb-4">Bảng xếp hạng tổng thể</h4>
+              <table id="table-7-summary" class="w-full text-sm"></table>
+            </div>
+            <div class="chart-container">
+              <h4 class="font-bold text-center mb-2">
+                So sánh Giá trị: Tính năng vs. Chi phí
+              </h4>
+              <canvas id="valueChart"></canvas>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="chart-container">
+                <h4 class="font-bold text-center mb-2">
+                  So sánh Năng lực Nhà cung cấp
+                </h4>
+                <canvas id="competencyChart"></canvas>
+              </div>
+              <div class="chart-container">
+                <h4 class="font-bold text-center mb-2">
+                  So sánh Chức năng Cốt lõi
+                </h4>
+                <canvas id="coreFunctionChart"></canvas>
+              </div>
+              <div class="chart-container">
+                <h4 class="font-bold text-center mb-2">
+                  So sánh Tích hợp & Công nghệ
+                </h4>
+                <canvas id="integrationChart"></canvas>
+              </div>
+              <div class="chart-container">
+                <h4 class="font-bold text-center mb-2">
+                  So sánh Triển khai & Hỗ trợ
+                </h4>
+                <canvas id="supportChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="tab8" class="tab-content">
+          <h3 class="font-semibold mb-2">9. Phân tích SWOT</h3>
+          <table id="table-8-swot" class="w-full text-sm"></table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const sampleData = {
+        vendors: [
+          "Nhà Cung Cấp 1",
+          "Nhà Cung Cấp 2",
+          "Nhà Cung Cấp 3",
+          "Nhà Cung Cấp 4",
+        ],
+        "table-1": [
+          [
+            "Hạng mục",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          ["Phân khúc chính", "", "", "", ""],
+          ["Số năm kinh nghiệm", "", "", "", ""],
+          ["Số lượng khách hàng", "", "", "", ""],
+          ["Năng lực Quản lý Chuỗi & Phân quyền", "", "", "", ""],
+        ],
+        "table-1-5": [
+          [
+            "Hạng mục Đội ngũ & Quy trình",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          ["Số lượng nhân sự triển khai dự án", "", "", "", ""],
+          ["Chứng chỉ/Kinh nghiệm nổi bật của đội ngũ", "", "", "", ""],
+          ["Mô hình triển khai (Agile/Waterfall/Hybrid)", "", "", "", ""],
+          ["Thời gian triển khai trung bình", "", "", "", ""],
+        ],
+        "table-2-scores": {},
+        "table-3": [
+          [
+            "Chức năng & Phân hệ",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          ["Quản lý Đặt phòng (Reservations)", "", "", "", ""],
+          ["Quản lý khách đoàn/Corporate (Group Bookings)", "", "", "", ""],
+          ["Quản lý Lễ tân & Buồng phòng", "", "", "", ""],
+          ["Giao diện & Trải nghiệm Người dùng (UI/UX)", "", "", "", ""],
+          ["Self Check-in/Check-out & Kiosk", "", "", "", ""],
+          [
+            "Ứng dụng di động cho Quản lý & Nhân viên (Housekeeping, Manager)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          ["Quản lý Giá (Rate Management)", "", "", "", ""],
+          ["Quản lý Thu ngân & Hóa đơn (Cashiering)", "", "", "", ""],
+          ["Báo cáo, Phân tích & BI", "", "", "", ""],
+          [
+            "Quản lý Dịch vụ Phụ trợ (F&B, Spa, Minibar) & Công nợ",
+            "",
+            "",
+            "",
+            "",
+          ],
+          ["Hỗ trợ Đa ngôn ngữ, Tiền tệ, Thuế", "", "", "", ""],
+          ["Revenue Management nâng cao (AI/ML Forecasting)", "", "", "", ""],
+        ],
+        "table-4": [
+          [
+            "Tích hợp & Công nghệ",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          [
+            "Tích hợp Website, Booking Engine & Channel Manager",
+            "",
+            "",
+            "",
+            "",
+          ],
+          [
+            "Tích hợp Hệ thống Nội bộ (POS, Kế toán, Khóa từ, Tổng đài...)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          ["API mở & Chất lượng tài liệu (REST/GraphQL, SDK)", "", "", "", ""],
+          [
+            "Khả năng mở rộng (Scalability: 1 khách sạn → chuỗi)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          [
+            "Tích hợp OTA & Metasearch (Booking, Agoda, Google)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          [
+            "Mô hình triển khai (Cloud/SaaS vs On-premise/Hybrid)",
+            "",
+            "",
+            "",
+            "",
+          ],
+        ],
+        "table-5": [
+          [
+            "Khoản mục chi phí",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          ["Chi phí bản quyền/khởi tạo", "", "", "", ""],
+          ["Chi phí duy trì/thuê bao", "", "", "", ""],
+          ["Chi phí triển khai & Đào tạo", "", "", "", ""],
+          [
+            "Mô hình thanh toán (SaaS/Perpetual/Hybrid) & Linh hoạt quy mô",
+            "",
+            "",
+            "",
+            "",
+          ],
+          [
+            "Chi phí ẩn: API, báo cáo tùy chỉnh, backup, nâng cấp",
+            "",
+            "",
+            "",
+            "",
+          ],
+        ],
+        "table-6": [
+          [
+            "Triển khai & Hỗ trợ",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          ["Quy trình & Thời gian triển khai theo quy mô", "", "", "", ""],
+          [
+            "Chất lượng Đào tạo & Tài liệu (KB, Video, Onsite/Online)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          [
+            "Kênh hỗ trợ & SLA (24/7, ưu tiên sự cố nghiêm trọng)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          [
+            "Chính sách nâng cấp & Chu kỳ phát hành (Upgrade Policy)",
+            "",
+            "",
+            "",
+            "",
+          ],
+          ["Nhu cầu đào tạo lại (Re-training) khi nâng cấp", "", "", "", ""],
+          ["Uptime/SLO & Giám sát vận hành", "", "", "", ""],
+        ],
+        "table-8-swot": [
+          [
+            "Phân tích",
+            "Nhà Cung Cấp 1",
+            "Nhà Cung Cấp 2",
+            "Nhà Cung Cấp 3",
+            "Nhà Cung Cấp 4",
+          ],
+          ["Strengths (Điểm mạnh)", "", "", "", ""],
+          ["Weaknesses (Điểm yếu)", "", "", "", ""],
+          ["Opportunities (Cơ hội)", "", "", "", ""],
+          ["Threats (Thách thức)", "", "", "", ""],
+        ],
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        function createScoringTable() {
+          const table = document.getElementById("table-2");
+          const vendors = sampleData.vendors;
+          const scores = sampleData["table-2-scores"];
+
+          // Giữ tổng trọng số = 100
+          const structure = [
+            {
+              key: "A",
+              title: "A. NĂNG LỰC & UY TÍN NHÀ CUNG CẤP",
+              weight: 15,
+              children: [
+                {
+                  key: "A1",
+                  title: "1. Kinh nghiệm trong ngành khách sạn",
+                  weight: 4,
+                  basis: "Kinh nghiệm (Tab 1)",
+                },
+                {
+                  key: "A2",
+                  title: "2. Quy mô, sự ổn định và danh sách khách hàng",
+                  weight: 4,
+                  basis: "Quy mô (Tab 1)",
+                },
+                {
+                  key: "A3",
+                  title: "3. Năng lực đội ngũ tư vấn, triển khai",
+                  weight: 4,
+                  basis: "Đội ngũ (Tab 2)",
+                },
+                {
+                  key: "A4",
+                  title: "4. Năng lực Quản lý Chuỗi & Phân quyền",
+                  weight: 3,
+                  basis: "Quản lý Chuỗi (Tab 1)",
+                },
+              ],
+            },
+            {
+              key: "B",
+              title: "B. CHỨC NĂNG VẬN HÀNH & TRẢI NGHIỆM",
+              weight: 20,
+              children: [
+                {
+                  key: "B1",
+                  title: "1. Quản lý Đặt phòng (Reservations)",
+                  weight: 5,
+                  basis: "Đặt phòng (Tab 4)",
+                },
+                {
+                  key: "B2",
+                  title: "2. Quản lý Lễ tân & Buồng phòng",
+                  weight: 5,
+                  basis: "Lễ tân (Tab 4)",
+                },
+                {
+                  key: "B3",
+                  title: "3. Giao diện & Trải nghiệm Người dùng (UI/UX)",
+                  weight: 3,
+                  basis: "UI/UX (Tab 4)",
+                },
+                {
+                  key: "B4",
+                  title: "4. Quản lý khách đoàn/Corporate (Group Bookings)",
+                  weight: 3,
+                  basis: "Group (Tab 4)",
+                },
+                {
+                  key: "B5",
+                  title: "5. Self Check-in/Check-out & Kiosk",
+                  weight: 2,
+                  basis: "Self-service (Tab 4)",
+                },
+                {
+                  key: "B6",
+                  title: "6. Ứng dụng di động cho Quản lý & Nhân viên",
+                  weight: 2,
+                  basis: "Mobile (Tab 4)",
+                },
+              ],
+            },
+            {
+              key: "C",
+              title: "C. QUẢN LÝ DOANH THU & DỊCH VỤ",
+              weight: 20,
+              children: [
+                {
+                  key: "C1",
+                  title: "1. Quản lý Giá & Gói bán (Rate Management)",
+                  weight: 4,
+                  basis: "Quản lý Giá (Tab 4)",
+                },
+                {
+                  key: "C2",
+                  title: "2. Quản lý Thu ngân & Hóa đơn (Cashiering)",
+                  weight: 4,
+                  basis: "Thu ngân (Tab 4)",
+                },
+                {
+                  key: "C3",
+                  title: "3. Báo cáo, Phân tích & Business Intelligence",
+                  weight: 4,
+                  basis: "Báo cáo (Tab 4)",
+                },
+                {
+                  key: "C4",
+                  title:
+                    "4. Quản lý Dịch vụ Phụ trợ (F&B, Spa, Minibar) & Công nợ",
+                  weight: 3,
+                  basis: "Dịch vụ phụ trợ (Tab 4)",
+                },
+                {
+                  key: "C5",
+                  title: "5. Hỗ trợ Đa ngôn ngữ, Tiền tệ, Thuế",
+                  weight: 3,
+                  basis: "Đa ngôn ngữ (Tab 4)",
+                },
+                {
+                  key: "C6",
+                  title: "6. Revenue Management nâng cao (AI/ML Forecasting)",
+                  weight: 2,
+                  basis: "Revenue AI (Tab 4)",
+                },
+              ],
+            },
+            {
+              key: "D",
+              title: "D. CÔNG NGHỆ & TÍCH HỢP",
+              weight: 20,
+              children: [
+                {
+                  key: "D1",
+                  title:
+                    "1. Tích hợp Website, Booking Engine & Channel Manager",
+                  weight: 4,
+                  basis: "Tích hợp Website (Tab 5)",
+                },
+                {
+                  key: "D2",
+                  title:
+                    "2. Tích hợp Hệ thống Nội bộ (POS, Kế toán, Khóa từ, Tổng đài...)",
+                  weight: 4,
+                  basis: "Tích hợp nội bộ (Tab 5)",
+                },
+                {
+                  key: "D3",
+                  title: "3. API mở & Chất lượng tài liệu (REST/GraphQL, SDK)",
+                  weight: 3,
+                  basis: "API (Tab 5)",
+                },
+                {
+                  key: "D4",
+                  title: "4. Khả năng mở rộng (Scalability)",
+                  weight: 3,
+                  basis: "Scalability (Tab 5)",
+                },
+                {
+                  key: "D5",
+                  title: "5. Tích hợp OTA & Metasearch",
+                  weight: 3,
+                  basis: "OTA/Metasearch (Tab 5)",
+                },
+                {
+                  key: "D6",
+                  title:
+                    "6. Mô hình triển khai (Cloud/SaaS vs On-premise/Hybrid)",
+                  weight: 3,
+                  basis: "Triển khai (Tab 5)",
+                },
+              ],
+            },
+            {
+              key: "E",
+              title: "E. CHI PHÍ",
+              weight: 10,
+              children: [
+                {
+                  key: "E1",
+                  title: "1. Chi phí bản quyền / khởi tạo ban đầu",
+                  weight: 3,
+                  basis: "Chi phí bản quyền (Tab 6)",
+                },
+                {
+                  key: "E2",
+                  title: "2. Chi phí duy trì / hỗ trợ hàng năm",
+                  weight: 3,
+                  basis: "Chi phí duy trì (Tab 6)",
+                },
+                {
+                  key: "E3",
+                  title:
+                    "3. Mô hình thanh toán (SaaS/Perpetual/Hybrid) & Linh hoạt quy mô",
+                  weight: 2,
+                  basis: "Mô hình thanh toán (Tab 6)",
+                },
+                {
+                  key: "E4",
+                  title:
+                    "4. Chi phí ẩn: API, báo cáo tùy chỉnh, backup, nâng cấp",
+                  weight: 2,
+                  basis: "Chi phí ẩn (Tab 6)",
+                },
+              ],
+            },
+            {
+              key: "F",
+              title: "F. TRIỂN KHAI & HỖ TRỢ",
+              weight: 15,
+              children: [
+                {
+                  key: "F1",
+                  title: "1. Quy trình & Thời gian triển khai theo quy mô",
+                  weight: 4,
+                  basis: "Quy trình triển khai (Tab 2)",
+                },
+                {
+                  key: "F2",
+                  title: "2. Chất lượng đào tạo & Tài liệu (KB/Video/Onsite)",
+                  weight: 3,
+                  basis: "Đào tạo (Tab 7)",
+                },
+                {
+                  key: "F3",
+                  title: "3. Hỗ trợ kỹ thuật & SLA (24/7)",
+                  weight: 4,
+                  basis: "Hỗ trợ (Tab 7)",
+                },
+                {
+                  key: "F4",
+                  title: "4. Chính sách nâng cấp & Chu kỳ phát hành",
+                  weight: 2,
+                  basis: "Upgrade Policy (Tab 7)",
+                },
+                {
+                  key: "F5",
+                  title: "5. Nhu cầu đào tạo lại (Re-training) khi nâng cấp",
+                  weight: 1,
+                  basis: "Re-training (Tab 7)",
+                },
+                {
+                  key: "F6",
+                  title: "6. Uptime/SLO & Giám sát vận hành",
+                  weight: 1,
+                  basis: "Uptime (Tab 7)",
+                },
+              ],
+            },
+          ];
+
+          let headHTML = `<thead><tr><th>Tiêu chí đánh giá</th><th>Trọng số</th>`;
+          vendors.forEach(
+            (v) => (headHTML += `<th contenteditable="true">${v}</th>`)
+          );
+          headHTML += `</tr></thead>`;
+
+          let bodyHTML = `<tbody>`;
+          structure.forEach((group) => {
+            bodyHTML += `<tr class="bg-emerald-100 text-emerald-900 font-bold text-base border-t-2 border-gray-300">
+                        <td>${group.title}</td>
+                        <td data-weight-group="${group.key}">${
+              group.weight
+            }</td>
+                        ${vendors
+                          .map(
+                            (v, i) =>
+                              `<td class="group-score-display bg-emerald-200" data-score-group="${group.key}" data-vendor-index="${i}"><span class="score">0.0</span> <span class="max-score">/ ${group.weight}</span></td>`
+                          )
+                          .join("")}
+                    </tr>`;
+            group.children.forEach((item) => {
+              bodyHTML += `<tr>
+                            <td class="pl-8">${item.title}</td>
+                            <td data-weight="${item.key}">${item.weight}</td>
+                            ${vendors
+                              .map(
+                                (v, i) =>
+                                  `<td data-score="${
+                                    item.key
+                                  }" data-vendor-index="${i}" contenteditable="true">${
+                                    scores[v]?.[item.key] || ""
+                                  }</td>`
+                              )
+                              .join("")}
+                        </tr>`;
+              if (item.basis) {
+                bodyHTML += `<tr><td colspan="${
+                  vendors.length + 2
+                }" class="evaluation-basis" data-basis-for="${
+                  item.key
+                }"><strong>Cơ sở:</strong></td></tr>`;
+              }
+            });
+          });
+          bodyHTML += `<tr class="font-bold bg-emerald-700 text-white text-lg">
+                    <td>TỔNG CỘNG (Thang 100)</td>
+                    <td id="total-weight">100</td>
+                    ${vendors
+                      .map((v, i) => `<td id="total-score-${i}">0.0</td>`)
+                      .join("")}
+                </tr>`;
+          bodyHTML += `</tbody>`;
+
+          table.innerHTML = headHTML + bodyHTML;
+        }
+
+        function populateSimpleTable(tableId, data) {
+          const table = document.getElementById(tableId);
+          if (!table || !data) return;
+          let html = `<thead><tr>${data[0]
+            .map((h, i) =>
+              i === 0 ? `<th>${h}</th>` : `<th contenteditable="true">${h}</th>`
+            )
+            .join("")}</tr></thead><tbody>`;
+          data.slice(1).forEach((row) => {
+            html += `<tr>${row
+              .map((cell, index) => {
+                const cellContent = cell.toString().replace(/\n/g, "<br>");
+                const isEditable = index !== 0;
+                return `<td ${
+                  isEditable ? 'contenteditable="true"' : ""
+                }>${cellContent}</td>`;
+              })
+              .join("")}</tr>`;
+          });
+          html += "</tbody>";
+          table.innerHTML = html;
+        }
+
+        function loadAllData() {
+          populateSimpleTable("table-1", sampleData["table-1"]);
+          populateSimpleTable("table-1-5", sampleData["table-1-5"]);
+          createScoringTable();
+          populateSimpleTable("table-3", sampleData["table-3"]);
+          populateSimpleTable("table-4", sampleData["table-4"]);
+          populateSimpleTable("table-5", sampleData["table-5"]);
+          populateSimpleTable("table-6", sampleData["table-6"]);
+          populateSimpleTable("table-8-swot", sampleData["table-8-swot"]);
+        }
+
+        const tabs = document.querySelectorAll(".tab-btn");
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", (e) => {
+            document
+              .querySelectorAll(".tab-btn.active")
+              .forEach((t) => t.classList.remove("active"));
+            e.target.classList.add("active");
+            document
+              .querySelector(".tab-content.active")
+              .classList.remove("active");
+            document
+              .getElementById(e.target.dataset.tab)
+              .classList.add("active");
+          });
+        });
+
+        function getCellValue(selector) {
+          const element = document.querySelector(selector);
+          return element
+            ? parseFloat(element.innerText.replace(/[^0-9.-]+/g, "")) || 0
+            : 0;
+        }
+
+        function calculateScores() {
+          const vendors = Array.from(
+            document.querySelectorAll("#table-2 thead th[contenteditable]")
+          ).map((th) => th.innerText);
+          const numVendors = vendors.length;
+          const groups = ["A", "B", "C", "D", "E", "F"];
+          let groupScores = Array(numVendors)
+            .fill(null)
+            .map(() => ({}));
+          let totalScores = Array(numVendors).fill(0);
+
+          vendors.forEach((_, vendorIndex) => {
+            let currentTotalScore = 0;
+            groups.forEach((groupKey) => {
+              let currentGroupScore = 0;
+              document
+                .querySelectorAll(
+                  `td[data-score][data-vendor-index="${vendorIndex}"]`
+                )
+                .forEach((cell) => {
+                  const scoreKey = cell.dataset.score;
+                  if (scoreKey.startsWith(groupKey)) {
+                    const weight = getCellValue(
+                      `td[data-weight="${scoreKey}"]`
+                    );
+                    const score = getCellValue(
+                      `td[data-score="${scoreKey}"][data-vendor-index="${vendorIndex}"]`
+                    );
+                    currentGroupScore += (score * weight) / 10;
+                  }
+                });
+              const groupScoreCell = document.querySelector(
+                `td[data-score-group="${groupKey}"][data-vendor-index="${vendorIndex}"] .score`
+              );
+              if (groupScoreCell)
+                groupScoreCell.innerText = currentGroupScore.toFixed(1);
+
+              const groupWeight = getCellValue(
+                `td[data-weight-group="${groupKey}"]`
+              );
+              groupScores[vendorIndex][groupKey] =
+                groupWeight > 0 ? (currentGroupScore / groupWeight) * 10 : 0;
+              currentTotalScore += currentGroupScore;
+            });
+            totalScores[vendorIndex] = currentTotalScore;
+            const totalScoreCell = document.getElementById(
+              `total-score-${vendorIndex}`
+            );
+            if (totalScoreCell)
+              totalScoreCell.innerText = currentTotalScore.toFixed(1);
+          });
+          return { totalScores, groupScores, vendorNames: vendors };
+        }
+
+        function getTableData(tableId) {
+          const table = document.getElementById(tableId);
+          if (!table) return [];
+          const data = [];
+          const rows = table.querySelectorAll("tr");
+          rows.forEach((row) => {
+            const rowData = [];
+            row.querySelectorAll("td, th").forEach((cell) => {
+              rowData.push(cell.innerText);
+            });
+            data.push(rowData);
+          });
+          return data;
+        }
+
+        function updateEvaluationBasis() {
+          const basisMap = {
+            A1: { tableId: "table-1", term: "Số năm kinh nghiệm", tab: 1 },
+            A2: { tableId: "table-1", term: "Số lượng khách hàng", tab: 1 },
+            A3: { tableId: "table-1-5", term: "Số lượng nhân sự", tab: 2 },
+            A4: { tableId: "table-1", term: "Quản lý Chuỗi", tab: 1 },
+
+            B1: { tableId: "table-3", term: "Đặt phòng", tab: 4 },
+            B2: { tableId: "table-3", term: "Lễ tân", tab: 4 },
+            B3: { tableId: "table-3", term: "Giao diện", tab: 4 },
+            B4: { tableId: "table-3", term: "khách đoàn", tab: 4 },
+            B5: { tableId: "table-3", term: "Self Check", tab: 4 },
+            B6: { tableId: "table-3", term: "Ứng dụng di động", tab: 4 },
+
+            C1: { tableId: "table-3", term: "Quản lý Giá", tab: 4 },
+            C2: { tableId: "table-3", term: "Thu ngân", tab: 4 },
+            C3: { tableId: "table-3", term: "Báo cáo", tab: 4 },
+            C4: { tableId: "table-3", term: "Dịch vụ Phụ trợ", tab: 4 },
+            C5: { tableId: "table-3", term: "Đa ngôn ngữ", tab: 4 },
+            C6: { tableId: "table-3", term: "Revenue Management", tab: 4 },
+
+            D1: { tableId: "table-4", term: "Booking Engine", tab: 5 },
+            D2: { tableId: "table-4", term: "Hệ thống Nội bộ", tab: 5 },
+            D3: { tableId: "table-4", term: "API", tab: 5 },
+            D4: { tableId: "table-4", term: "Scalability", tab: 5 },
+            D5: { tableId: "table-4", term: "OTA", tab: 5 },
+            D6: { tableId: "table-4", term: "Mô hình triển khai", tab: 5 },
+
+            E1: { tableId: "table-5", term: "bản quyền", tab: 6 },
+            E2: { tableId: "table-5", term: "duy trì", tab: 6 },
+            E3: { tableId: "table-5", term: "Mô hình thanh toán", tab: 6 },
+            E4: { tableId: "table-5", term: "Chi phí ẩn", tab: 6 },
+
+            F1: { tableId: "table-6", term: "Thời gian triển khai", tab: 7 },
+            F2: { tableId: "table-6", term: "Đào tạo", tab: 7 },
+            F3: { tableId: "table-6", term: "SLA", tab: 7 },
+            F4: { tableId: "table-6", term: "nâng cấp", tab: 7 },
+            F5: { tableId: "table-6", term: "đào tạo lại", tab: 7 },
+            F6: { tableId: "table-6", term: "Uptime", tab: 7 },
+          };
+
+          const vendors = Array.from(
+            document.querySelectorAll("#table-2 thead th[contenteditable]")
+          ).map((th) => th.innerText);
+
+          Object.keys(basisMap).forEach((itemKey) => {
+            const basisCell = document.querySelector(
+              `[data-basis-for="${itemKey}"]`
+            );
+            if (basisCell) {
+              const { tableId, term, tab } = basisMap[itemKey];
+              const tableData = getTableData(tableId);
+              const headers = tableData[0];
+              const dataRow = tableData.find(
+                (r) => r[0] && r[0].toLowerCase().includes(term.toLowerCase())
+              );
+
+              let basisText = `<strong>Cơ sở (Tab ${tab}):</strong> ${
+                dataRow ? dataRow[0] : term
+              } | `;
+              if (dataRow) {
+                basisText += vendors
+                  .map((v) => {
+                    const vendorIndex = headers.indexOf(v);
+                    return vendorIndex !== -1
+                      ? `${v}: ${dataRow[vendorIndex] || "N/A"}`
+                      : `${v}: N/A`;
+                  })
+                  .join("; ");
+              } else {
+                basisText += "Không tìm thấy dữ liệu.";
+              }
+              basisCell.innerHTML = basisText;
+            }
+          });
+        }
+
+        let charts = {};
+        function updateDashboard() {
+          const { totalScores, groupScores, vendorNames } = calculateScores();
+          const costTableData = getTableData("table-5");
+          const costDevRow = costTableData.find((r) =>
+            r[0].toLowerCase().includes("bản quyền/khởi tạo")
+          );
+          const costDev = costDevRow
+            ? costDevRow.slice(1).map((c) => {
+                const text = (c || "").toLowerCase();
+                if (text.includes("rất cao")) return 10;
+                if (text.includes("cao")) return 8;
+                if (text.includes("trung bình")) return 6;
+                if (text.includes("thấp")) return 3;
+                return 0;
+              })
+            : Array(vendorNames.length).fill(0);
+
+          Object.values(charts).forEach((chart) => chart.destroy());
+
+          const summaryTable = document.querySelector("#table-7-summary");
+          if (summaryTable) {
+            const vendorData = vendorNames
+              .map((name, index) => ({
+                name: name,
+                score: totalScores[index],
+                costText: costDevRow ? costDevRow[index + 1] : "N/A",
+              }))
+              .sort((a, b) => b.score - a.score);
+
+            let summaryBodyHTML = "";
+            vendorData.forEach((vendor, index) => {
+              summaryBodyHTML += `<tr>
+                            <td class="text-center font-bold">${index + 1}</td>
+                            <td>${vendor.name}</td>
+                            <td>${vendor.score.toFixed(1)}</td>
+                            <td>${vendor.costText}</td>
+                            <td contenteditable="true"></td>
+                        </tr>`;
+            });
+            summaryTable.innerHTML = `<thead><tr><th>Xếp hạng</th><th>Nhà cung cấp</th><th>Tổng điểm</th><th>Chi phí khởi tạo (ước tính)</th><th>Ghi chú</th></tr></thead><tbody>${summaryBodyHTML}</tbody>`;
+          }
+
+          charts.valueChart = new Chart(
+            document.getElementById("valueChart").getContext("2d"),
+            {
+              type: "bar",
+              data: {
+                labels: vendorNames,
+                datasets: [
+                  {
+                    label: "Tổng điểm Tính năng (Thang 100)",
+                    data: totalScores,
+                    backgroundColor: "rgba(5, 150, 105, 0.7)",
+                    yAxisID: "y-score",
+                    order: 1,
+                  },
+                  {
+                    label: "Mức độ chi phí (1-10)",
+                    data: costDev,
+                    backgroundColor: "rgba(249, 115, 22, 0.7)",
+                    yAxisID: "y-cost",
+                    type: "line",
+                    order: 0,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                plugins: { tooltip: { mode: "index", intersect: false } },
+                scales: {
+                  "y-score": {
+                    type: "linear",
+                    position: "left",
+                    title: { display: true, text: "Điểm Tính năng" },
+                    min: 0,
+                    max: 100,
+                  },
+                  "y-cost": {
+                    type: "linear",
+                    position: "right",
+                    title: {
+                      display: true,
+                      text: "Mức độ chi phí (Càng cao càng đắt)",
+                    },
+                    grid: { drawOnChartArea: false },
+                    min: 0,
+                    max: 10,
+                  },
+                },
+              },
+            }
+          );
+
+          const createGroupChart = (canvasId, label, groupKeys, colors) => {
+            const chartCanvas = document.getElementById(canvasId);
+            if (!chartCanvas) return;
+            charts[canvasId] = new Chart(chartCanvas.getContext("2d"), {
+              type: "bar",
+              data: {
+                labels: vendorNames,
+                datasets: [
+                  {
+                    label: label,
+                    data: vendorNames.map((v, i) => {
+                      let total = 0;
+                      let totalWeight = 0;
+                      const groupElements = document.querySelectorAll(
+                        `td[data-weight-group]`
+                      );
+                      const groupWeights = {};
+                      groupElements.forEach(
+                        (el) =>
+                          (groupWeights[el.dataset.weightGroup] = parseFloat(
+                            el.innerText
+                          ))
+                      );
+                      groupKeys.forEach((key) => {
+                        total +=
+                          (groupScores[i]?.[key] ?? 0) *
+                          (groupWeights[key] || 0);
+                        totalWeight += groupWeights[key] || 0;
+                      });
+                      return totalWeight > 0 ? (total / totalWeight) * 10 : 0;
+                    }),
+                    backgroundColor: colors,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, max: 10 } },
+              },
+            });
+          };
+
+          const chartColors = ["#3b82f6", "#10b981", "#f97316", "#8b5cf6"];
+          createGroupChart(
+            "competencyChart",
+            "Điểm Năng lực NCC",
+            ["A"],
+            chartColors
+          );
+          createGroupChart(
+            "coreFunctionChart",
+            "Điểm Chức năng & Doanh thu",
+            ["B", "C"],
+            chartColors
+          );
+          createGroupChart(
+            "integrationChart",
+            "Điểm Công nghệ & Tích hợp",
+            ["D"],
+            chartColors
+          );
+          createGroupChart(
+            "supportChart",
+            "Điểm Triển khai & Hỗ trợ",
+            ["F"],
+            chartColors
+          );
+        }
+
+        document
+          .getElementById("update-charts-btn")
+          .addEventListener("click", () => {
+            calculateScores();
+            updateEvaluationBasis();
+            updateDashboard();
+          });
+
+        document
+          .getElementById("export-btn")
+          .addEventListener("click", function () {
+            const wb = XLSX.utils.book_new();
+            const sheetNames = [
+              "1_ThongTinChung",
+              "2_DoiNgu",
+              "3_ChamDiem",
+              "4_ChucNang",
+              "5_TichHop",
+              "6_ChiPhi",
+              "7_HoTro",
+              "8_Dashboard",
+              "9_SWOT",
+            ];
+            const tableIds = [
+              "table-1",
+              "table-1-5",
+              "table-2",
+              "table-3",
+              "table-4",
+              "table-5",
+              "table-6",
+              "table-7-summary",
+              "table-8-swot",
+            ];
+            tableIds.forEach((id, index) => {
+              const table = document.getElementById(id);
+              if (table) {
+                const ws = XLSX.utils.table_to_sheet(table, { raw: true });
+                XLSX.utils.book_append_sheet(wb, ws, sheetNames[index]);
+              }
+            });
+            XLSX.writeFile(wb, `So_Sanh_Nha_Cung_Cap_PMS_Full.xlsx`);
+          });
+
+        loadAllData();
+        calculateScores();
+        updateEvaluationBasis();
+        updateDashboard();
+
+        document
+          .getElementById("tab-container")
+          .addEventListener("input", (e) => {
+            if (
+              e.target.matches(
+                'td[contenteditable="true"], th[contenteditable="true"]'
+              )
+            ) {
+              calculateScores();
+            }
+          });
+      });
+    </script>
+  </body>
+</html>
