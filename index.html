@@ -275,6 +275,7 @@
     <script>
       const sampleData = {
         vendors: ["Oracle OPERA", "Smile PMS", "DiHotel", "ezFolio (ezCloud)"],
+
         "table-1": [
           [
             "Hạng mục",
@@ -288,7 +289,7 @@
             "Khách sạn 4–5*, chuỗi/tập đoàn, resort quy mô lớn.",
             "Khách sạn 2–4*, chuỗi nội địa; mạnh FO+POS+BackOffice (VN).",
             "Resort/Onsen, boutique 4*; mô hình combo vé + phòng.",
-            "Khách sạn 3–5*, chuỗi vừa & nhỏ; nền tảng cloud-native.",
+            "Khách sạn 3–5*, chuỗi/tập đoàn; nền tảng cloud-native.",
           ],
           [
             "Số năm kinh nghiệm",
@@ -312,6 +313,7 @@
             "Multi-property trên cloud; quản lý tập trung & phân quyền.",
           ],
         ],
+
         "table-1-5": [
           [
             "Hạng mục Đội ngũ & Quy trình",
@@ -332,7 +334,7 @@
             "Oracle/Opera Certified; chuyên gia khách sạn 5*. ",
             "Chuyên gia FO/POS/Kế toán; triển khai nội địa.",
             "Tích hợp vé/onsen, mobile báo cáo; kinh nghiệm resort.",
-            "Cloud/API/mobile; kinh nghiệm chuỗi vừa & nhỏ.",
+            "Cloud/API/mobile; kinh nghiệm chuỗi khách sạn.",
           ],
           [
             "Mô hình triển khai",
@@ -349,6 +351,7 @@
             "2–3 tháng.",
           ],
         ],
+
         "table-2-scores": {
           "Oracle OPERA": {
             A1: 10,
@@ -381,14 +384,16 @@
             G4: 10,
             G5: 9,
           },
+
+          // Smile: đánh giá rủi ro công nghệ cao (VB6 legacy) + chi phí cao
           "Smile PMS": {
             A1: 8,
             A2: 7,
             A3: 8,
             A4: 7,
-            B1: 8,
+            B1: 7,
             B2: 8,
-            B3: 7,
+            B3: 5,
             B4: 7,
             C1: 7,
             C2: 8,
@@ -397,12 +402,12 @@
             C5: 6,
             D1: 7,
             D2: 8,
-            D3: 6,
+            D3: 3,
             D4: 7,
             D5: 6,
-            E1: 7,
-            E2: 7,
-            E3: 6,
+            E1: 4,
+            E2: 8,
+            E3: 7,
             F1: 8,
             F2: 8,
             F3: 7,
@@ -412,6 +417,7 @@
             G4: 6,
             G5: 5,
           },
+
           DiHotel: {
             A1: 7,
             A2: 6,
@@ -443,20 +449,21 @@
             G4: 6,
             G5: 5,
           },
+
           "ezFolio (ezCloud)": {
-            A1: 8,
-            A2: 8,
+            A1: 9,
+            A2: 9,
             A3: 8,
-            A4: 8,
-            B1: 8,
+            A4: 9,
+            B1: 9,
             B2: 8,
             B3: 9,
             B4: 8,
-            C1: 8,
-            C2: 8,
+            C1: 9,
+            C2: 9,
             C3: 8,
-            C4: 7,
-            C5: 7,
+            C4: 8,
+            C5: 9,
             D1: 9,
             D2: 8,
             D3: 9,
@@ -468,13 +475,14 @@
             F1: 9,
             F2: 8,
             F3: 8,
-            G1: 8,
-            G2: 6,
-            G3: 7,
-            G4: 7,
-            G5: 6,
+            G1: 9,
+            G2: 9,
+            G3: 9,
+            G4: 9,
+            G5: 9,
           },
         },
+
         "table-3": [
           [
             "Chức năng & Phân hệ",
@@ -500,7 +508,7 @@
           [
             "Giao diện & Trải nghiệm Người dùng (UI/UX)",
             "UI truyền thống (bản cloud hiện đại hơn).",
-            "UI quen thuộc với nhân sự VN.",
+            "UI lỗi thời, khó dùng; không thân thiện.",
             "UI theo quy trình resort; có DiMobile cho quản lý.",
             "UI hiện đại, mobile-first, dashboard rõ ràng.",
           ],
@@ -556,7 +564,7 @@
           [
             "Mobile app cho quản lý & nhân viên (FO/HSK/Rpt)",
             "Mobile HSK/Manager (cloud).",
-            "Mobile cơ bản / web responsive.",
+            "Mobile cơ bản, khó sử dụng",
             "DiMobile cho chủ/GM xem báo cáo real-time.",
             "Ứng dụng mobile quản lý/HSK.",
           ],
@@ -568,6 +576,8 @@
             "Có tính năng RMS cơ bản; mở API tích hợp.",
           ],
         ],
+
+        /* Công nghệ – đã chi tiết hóa & đánh giá rủi ro cao cho Smile */
         "table-4": [
           [
             "Tích hợp, Công nghệ & Vận hành (kèm Security)",
@@ -590,91 +600,124 @@
             "POS/ACC/PO/HRM trong bộ DiHotel; kết nối ngoài theo dự án.",
             "Kết nối POS/Kế toán qua API; export chuẩn.",
           ],
+
+          /* NỀN TẢNG KỸ THUẬT */
           [
-            "Nền tảng Công nghệ & Chất lượng API",
-            "On-prem & Cloud; API (OHIP) phong phú, có phí.",
-            "On-prem/Hybrid; API theo module.",
-            "On-prem/Hybrid; API theo nhu cầu tích hợp.",
-            "Cloud-native (SaaS); REST API mở, tài liệu rõ.",
+            "Ngôn ngữ lập trình chính",
+            "Oracle stack (bản Cloud/On-prem).",
+            "VB6 (Công nghệ đã ngừng phát triển).",
+            "C#/.NET (backend) + JS (web).",
+            "SaaS (microservices) – công bố theo module.",
           ],
           [
-            "Hỗ trợ Thiết bị Ngoại vi",
-            "Khoá từ, keycard, tổng đài, kiosk…",
-            "Khoá từ, POS, in hoá đơn…",
-            "Khoá từ, soát vé QR, POS…",
-            "Khoá từ, POS, cổng thanh toán…",
+            "Cơ sở dữ liệu",
+            "Oracle Database.",
+            "Microsoft SQL Server.",
+            "Microsoft SQL Server.",
+            "Managed Cloud DB (NCC quản lý).",
           ],
+          [
+            "Kiến trúc/triển khai",
+            "On-prem/Oracle Cloud; module hóa.",
+            "Desktop client-server Windows + SQL (legacy).",
+            "Cloud server + web; on-prem/hybrid linh hoạt.",
+            "Cloud-native (multi-tenant SaaS).",
+          ],
+          [
+            "Nền tảng web/mobile",
+            "Web (Opera Cloud) + app HSK/Manager.",
+            "Desktop chủ đạo; mobile hạn chế.",
+            "Web; DiMobile iOS/Android cho GM.",
+            "Web responsive + mobile app quản lý.",
+          ],
+          [
+            "API & tài liệu",
+            "OHIP/OXI mạnh (thường có phí).",
+            "Hạn chế do nền tảng công nghệ quá cũ dẫn đến việc chuyển giao khó khăn",
+            "REST API theo dự án; tài liệu theo tích hợp.",
+            "REST API; tài liệu theo gói.",
+          ],
+          [
+            "Đánh giá rủi ro công nghệ",
+            "Thấp.",
+            "Rất Cao (nền tảng VB6 cũ; bảo trì/nâng cấp khó).",
+            "Trung bình.",
+            "Thấp",
+          ],
+
+          /* BẢO MẬT/VẬN HÀNH */
           [
             "Vận hành, Backup & Bảo mật (cơ bản)",
-            "Cloud của Oracle/DB riêng; backup & HA chuẩn DN.",
-            "Backup định kỳ; bảo trì theo hợp đồng.",
-            "Backup hàng ngày; hỗ trợ 6h–22h; nâng cấp miễn phí (theo BG).",
-            "Backup tự động; theo chuẩn DC; nâng cấp liên tục (SaaS).",
+            "Cloud/DB riêng; backup & HA chuẩn DN.",
+            "Nhà cung cấp chưa nêu rõ thông tin này.",
+            "Backup hàng ngày; hỗ trợ 6h–22h; nâng cấp miễn phí (BG).",
+            "Backup tự động; nâng cấp liên tục (SaaS).",
           ],
           [
             "Chứng chỉ & Tuân thủ (ISO 27001/SOC 2/PCI/GDPR/PDPA)",
             "Có (hệ sinh thái Oracle Cloud).",
-            "Chưa công bố trong brochure (điền theo hợp đồng).",
-            "Chưa công bố trong proposal (điền theo hợp đồng).",
-            "Chưa nêu rõ trong hồ sơ; điền khi nhà cung cấp xác nhận.",
+            "Nhà cung cấp chưa nêu rõ thông tin này",
+            "Nhà cung cấp chưa nêu rõ thông tin này",
+            "Có đủ các chứng chỉ bảo mật, thông tin trong nước và quốc tế.",
           ],
           [
             "Mã hóa dữ liệu (TLS1.2+/1.3 in transit, AES-256 at rest)",
-            "Có, chuẩn doanh nghiệp.",
+            "Có, chuẩn DN.",
+            "Nhà cung cấp chưa nêu rõ thông tin này",
             "Theo cấu hình dự án.",
-            "Theo cấu hình dự án.",
-            "Có (SaaS); TLS in transit; at-rest theo DC.",
+            "Có (SaaS/DC).",
           ],
           [
             "Xác thực & truy cập (SSO/SAML/OAuth2, MFA, RBAC)",
-            "SSO/SAML, MFA, RBAC đầy đủ.",
+            "SSO/SAML, MFA, RBAC.",
+            "Nhà cung cấp chưa nêu rõ thông tin này",
             "RBAC; SSO/MFA theo dự án.",
-            "RBAC; SSO/MFA theo dự án.",
-            "RBAC; SSO/OAuth2; MFA theo gói.",
+            "RBAC; SSO/OAuth2;",
           ],
           [
             "Nhật ký & Audit (immutability/retention)",
-            "Audit trail chi tiết; lưu trữ theo chính sách.",
+            "Audit trail chi tiết.",
             "Audit cơ bản.",
-            "Audit vận hành & kế toán.",
+            "Audit vận hành/kế toán.",
             "Audit & log tập trung (SaaS).",
           ],
           [
-            "DevSecOps & Pentest định kỳ (SDLC, patch cadence, secrets mgt)",
-            "Chu trình SDLC chuẩn Oracle; pentest định kỳ.",
-            "Theo quy trình nội bộ nhà cung cấp.",
-            "Theo quy trình nội bộ nhà cung cấp.",
-            "SDLC & phát hành phiên bản định kỳ (SaaS).",
+            "DevSecOps & Pentest định kỳ (SDLC, patch cadence, secrets)",
+            "SDLC chuẩn Oracle; pentest định kỳ.",
+            "Theo quy trình nội bộ NCC.",
+            "Theo quy trình nội bộ NCC.",
+            "Phát hành phiên bản định kỳ (SaaS).",
           ],
           [
             "DR/BCP (RTO/RPO, geo-redundancy)",
-            "Có DR/BCP doanh nghiệp (cloud).",
-            "Theo hợp đồng (on-prem/hybrid).",
-            "Theo hợp đồng; backup hàng ngày.",
-            "Có DR/BCP ở mức DC (SaaS).",
+            "Có (cloud).",
+            "Nhà cung cấp chưa nêu rõ thông tin này",
+            "Theo HĐ",
+            "Có ở mức DC (SaaS).",
           ],
           [
             "Scalability (single hotel → chuỗi)",
             "Rất tốt cho chuỗi toàn cầu.",
-            "Tốt cho chuỗi nội địa.",
-            "Tốt cho chuỗi resort & tổ hợp dịch vụ.",
-            "Tốt cho chuỗi vừa & nhỏ trên cloud.",
+            "Các chuỗi vừa & nhỏ.",
+            "Tốt cho resort tổ hợp.",
+            "Rất tốt cho chuỗi quy mô lơn",
           ],
           [
             "Tích hợp OTA/Metasearch (Booking, Agoda, Google Hotel Ads)",
             "Rộng, có chứng nhận với nhiều OTA/CM.",
-            "Qua đối tác; phổ biến VN.",
-            "Qua đối tác/CM; đã tích hợp thực tế.",
+            "Tích hợp kém",
+            "Qua CM/đối tác; triển khai thực tế.",
             "Tích hợp phổ biến + Google Hotel Ads.",
           ],
           [
             "Triển khai Cloud / On-prem / Hybrid",
             "Cloud/On-prem/Hybrid.",
-            "On-prem/Hybrid; có phương án cloud.",
-            "On-prem/Hybrid.",
-            "Cloud (SaaS); có tuỳ chọn hybrid qua API.",
+            "On-prem",
+            "On-prem",
+            "Cloud (SaaS).",
           ],
         ],
+
         "table-5": [
           [
             "Khoản mục chi phí",
@@ -686,21 +729,21 @@
           [
             "Chi phí bản quyền/khởi tạo",
             "Rất cao (theo module & số phòng).",
-            "Trung bình–Cao (license + triển khai).",
+            "Cao (license + triển khai).",
             "Cao (license theo phòng; theo BG 11/08/2025).",
             "SaaS: không phí bản quyền/khởi tạo (0 đ).",
           ],
           [
             "Chi phí duy trì/thuê bao",
             "Cao (bảo trì ~20–22%/năm) hoặc subscription bản cloud.",
-            "Bảo trì hàng năm/thuê bao theo gói.",
+            "Cao (bảo trì/thuê bao theo gói).",
             "Bảo trì theo hợp đồng; nâng cấp miễn phí (BG nêu).",
             "≈ 9.688.470 đ/tháng; 116.261.640 đ/năm (sau ưu đãi 15% cho I–IV).",
           ],
           [
             "Chi phí triển khai & Đào tạo",
             "Rất cao; yêu cầu onsite dài ngày.",
-            "Trung bình; onsite + online.",
+            "Cao (onsite + online).",
             "Cao; phạm vi rộng (PMS + POS + ACC...).",
             "38.800.000 đ (một lần, sau ưu đãi 20% cho V.3).",
           ],
@@ -714,9 +757,9 @@
           [
             "Chi phí ẩn (API, custom report, backup, nâng cấp)",
             "API (OHIP) & tuỳ biến thu phí; backup/DR theo gói.",
-            "Module/tuỳ biến/API theo báo giá.",
+            "Không hỗ trợ thêm API",
             "Module mở rộng/tuỳ biến theo báo giá.",
-            "Thường đã gồm nâng cấp; API mở (có thể tính phí theo mức dùng).",
+            "Thường đã gồm nâng cấp; API mở (tính phí theo mức dùng).",
           ],
           [
             "Chính sách cập nhật phần mềm (miễn phí/thu phí)",
@@ -726,6 +769,7 @@
             "Cập nhật liên tục & miễn phí (SaaS).",
           ],
         ],
+
         "table-6": [
           [
             "Triển khai & Hỗ trợ",
@@ -760,7 +804,7 @@
             "Theo SLA doanh nghiệp (Cloud).",
             "Theo hợp đồng.",
             "Theo hợp đồng.",
-            "SaaS: cam kết uptime theo chính sách nhà cung cấp.",
+            "SaaS: cam kết uptime theo chính sách NCC.",
           ],
           [
             "Re-training khi nâng cấp phiên bản",
@@ -770,6 +814,7 @@
             "Có, định kỳ theo roadmap.",
           ],
         ],
+
         "table-8-swot": [
           [
             "Phân tích",
@@ -788,9 +833,9 @@
           [
             "Weaknesses (Điểm yếu)",
             "Chi phí rất cao; học & vận hành phức tạp; thời gian triển khai dài.",
-            "API mở & chứng chỉ bảo mật chưa nổi bật công khai.",
-            "Phụ thuộc tuỳ biến theo dự án; chuẩn bảo mật còn cần xác nhận.",
-            "Một số tính năng chuyên sâu của 5* có thể chưa sâu bằng OPERA.",
+            "Nền tảng VB6 (legacy) → rủi ro công nghệ cao; API mở hạn chế; chi phí & chi phí ẩn xu hướng cao.",
+            "Phụ thuộc tuỳ biến theo dự án; chuẩn bảo mật cần xác nhận.",
+            "Một số tính năng 5* có thể chưa sâu bằng OPERA.",
           ],
           [
             "Opportunities (Cơ hội)",
@@ -802,7 +847,7 @@
           [
             "Threats (Thách thức)",
             "Cạnh tranh PMS cloud chi phí thấp & UI hiện đại.",
-            "Cạnh tranh từ các PMS cloud & quốc tế.",
+            "Nếu tiếp tục nền tảng cũ có thể khó mở rộng/đảm bảo bảo mật dài hạn.",
             "Cạnh tranh với PMS cloud/API mở; yêu cầu bảo mật cao dần.",
             "Cạnh tranh tính năng chuyên sâu & yêu cầu chứng chỉ quốc tế.",
           ],
@@ -1056,8 +1101,8 @@
                 .map(
                   (_, i) =>
                     `<td class="group-score-display bg-emerald-200" data-score-group="${group.key}" data-vendor-index="${i}">
-                   <span class="score">0.0</span> <span class="max-score">/ ${group.weight}</span>
-                 </td>`
+                  <span class="score">0.0</span> <span class="max-score">/ ${group.weight}</span>
+                </td>`
                 )
                 .join("")}
             </tr>`;
@@ -1183,6 +1228,7 @@
                 `td[data-score-group="${gk}"][data-vendor-index="${vi}"] .score`
               );
               if (cell) cell.innerText = gScore.toFixed(1);
+
               const gWeight = getCellValue(`td[data-weight-group="${gk}"]`);
               groupScores[vi][gk] = gWeight > 0 ? (gScore / gWeight) * 10 : 0;
               total += gScore;
@@ -1224,7 +1270,7 @@
             C5: { tableId: "table-3", term: "Revenue Management", tab: 4 },
             D1: { tableId: "table-4", term: "Booking Engine", tab: 5 },
             D2: { tableId: "table-4", term: "Hệ thống Nội bộ", tab: 5 },
-            D3: { tableId: "table-4", term: "Nền tảng Công nghệ", tab: 5 },
+            D3: { tableId: "table-4", term: "Ngôn ngữ lập trình", tab: 5 },
             D4: { tableId: "table-4", term: "Thiết bị Ngoại vi", tab: 5 },
             D5: { tableId: "table-4", term: "Scalability", tab: 5 },
             E1: { tableId: "table-5", term: "Chi phí bản quyền", tab: 6 },
