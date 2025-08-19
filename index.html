@@ -98,6 +98,9 @@
           <h1 class="text-2xl font-bold text-gray-900">
             Công cụ So sánh Nhà cung cấp Phần mềm Quản lý Khách sạn (PMS)
           </h1>
+          <p class="text-sm text-gray-500 mt-1">
+            Dữ liệu mẫu đã được điền sẵn để bạn xem trực tiếp trên giao diện.
+          </p>
         </div>
         <button
           id="export-btn"
@@ -129,10 +132,10 @@
             2. Đội ngũ & Quy trình
           </button>
           <button class="tab-btn whitespace-nowrap" data-tab="tab2">
-            3. Bảng Chấm Điểm
+            3. Chấm điểm
           </button>
           <button class="tab-btn whitespace-nowrap" data-tab="tab3">
-            4. Chức năng & Phân hệ
+            4. Chức năng
           </button>
           <button class="tab-btn whitespace-nowrap" data-tab="tab4">
             5. Tích hợp & Công nghệ
@@ -141,13 +144,13 @@
             6. Chi phí
           </button>
           <button class="tab-btn whitespace-nowrap" data-tab="tab6">
-            7. Triển khai & Hỗ trợ
+            7. Hỗ trợ
           </button>
           <button class="tab-btn whitespace-nowrap" data-tab="tab7">
             8. Dashboard
           </button>
           <button class="tab-btn whitespace-nowrap" data-tab="tab8">
-            9. Đánh giá SWOT
+            9. SWOT
           </button>
         </nav>
       </div>
@@ -188,9 +191,7 @@
           <table id="table-5" class="w-full text-sm"></table>
         </div>
         <div id="tab6" class="tab-content">
-          <h3 class="font-semibold mb-2">
-            7. Thông tin về Triển khai & Hỗ trợ
-          </h3>
+          <h3 class="font-semibold mb-2">7. Triển khai & Hỗ trợ</h3>
           <table id="table-6" class="w-full text-sm"></table>
         </div>
 
@@ -273,154 +274,538 @@
 
     <script>
       const sampleData = {
-        vendors: [
-          "Nhà Cung Cấp 1",
-          "Nhà Cung Cấp 2",
-          "Nhà Cung Cấp 3",
-          "Nhà Cung Cấp 4",
-        ],
+        vendors: ["Oracle OPERA", "Smile PMS", "DiHotel", "ezFolio (ezCloud)"],
         "table-1": [
           [
             "Hạng mục",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
-          ["Phân khúc chính", "", "", "", ""],
-          ["Số năm kinh nghiệm", "", "", "", ""],
-          ["Số lượng khách hàng", "", "", "", ""],
-          ["Năng lực Quản lý Chuỗi", "", "", "", ""],
+          [
+            "Phân khúc chính",
+            "Khách sạn 4–5*, chuỗi/tập đoàn, resort quy mô lớn.",
+            "Khách sạn 2–4*, chuỗi nội địa; mạnh FO+POS+BackOffice (VN).",
+            "Resort/Onsen, boutique 4*; mô hình combo vé + phòng.",
+            "Khách sạn 3–5*, chuỗi vừa & nhỏ; nền tảng cloud-native.",
+          ],
+          [
+            "Số năm kinh nghiệm",
+            "30+ năm",
+            "≈20 năm (theo brochure)",
+            "≈10 năm (theo proposal)",
+            "≈10 năm (hệ sinh thái ezCloud)",
+          ],
+          [
+            "Số lượng khách hàng",
+            ">40.000 KH toàn cầu (ước tính theo công bố thị trường)",
+            "Chưa công bố; phổ biến tại VN (theo brochure)",
+            "Nhiều triển khai resort & spa (theo đề xuất I-Resort)",
+            "Hàng nghìn KH tại VN (theo hồ sơ sản phẩm)",
+          ],
+          [
+            "Năng lực Quản lý Chuỗi",
+            "Multi-property/Chain, Central Profile/Rate, phân quyền sâu.",
+            "Có hỗ trợ chuỗi/HeadOffice (tùy gói), phân quyền linh hoạt.",
+            "Quản lý chuỗi & kế toán tập trung theo dự án triển khai.",
+            "Multi-property trên cloud; quản lý tập trung & phân quyền.",
+          ],
         ],
         "table-1-5": [
           [
             "Hạng mục Đội ngũ & Quy trình",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
-          ["Số lượng nhân sự triển khai dự án", "", "", "", ""],
-          ["Chứng chỉ/Kinh nghiệm nổi bật của đội ngũ", "", "", "", ""],
-          ["Mô hình triển khai", "", "", "", ""],
-          ["Thời gian triển khai trung bình", "", "", "", ""],
+          [
+            "Số lượng nhân sự triển khai dự án",
+            "10–15 người (tuỳ quy mô/địa điểm).",
+            "3–6 người (theo phạm vi module).",
+            "4–6 người (FO/SALE/HK, POS, ACC, PO, HRM).",
+            "3–5 người (ưu tiên remote-first).",
+          ],
+          [
+            "Chứng chỉ/Kinh nghiệm nổi bật của đội ngũ",
+            "Oracle/Opera Certified; chuyên gia khách sạn 5*. ",
+            "Chuyên gia FO/POS/Kế toán; triển khai nội địa.",
+            "Tích hợp vé/onsen, mobile báo cáo; kinh nghiệm resort.",
+            "Cloud/API/mobile; kinh nghiệm chuỗi vừa & nhỏ.",
+          ],
+          [
+            "Mô hình triển khai",
+            "Waterfall/Agile tuỳ biến, kiểm soát thay đổi chặt.",
+            "Agile; nâng cấp theo phiên bản.",
+            "Agile + onsite; tích hợp hệ vé/website.",
+            "Agile/Cloud; triển khai nhanh theo Sprint.",
+          ],
+          [
+            "Thời gian triển khai trung bình",
+            "6–12 tháng (dự án lớn).",
+            "2–4 tháng.",
+            "3–5 tháng.",
+            "2–3 tháng.",
+          ],
         ],
-        "table-2-scores": {},
+        "table-2-scores": {
+          "Oracle OPERA": {
+            A1: 10,
+            A2: 10,
+            A3: 9,
+            A4: 10,
+            B1: 10,
+            B2: 10,
+            B3: 8,
+            B4: 9,
+            C1: 10,
+            C2: 10,
+            C3: 9,
+            C4: 8,
+            C5: 9,
+            D1: 10,
+            D2: 10,
+            D3: 9,
+            D4: 9,
+            D5: 9,
+            E1: 2,
+            E2: 3,
+            E3: 4,
+            F1: 8,
+            F2: 9,
+            F3: 9,
+            G1: 10,
+            G2: 10,
+            G3: 10,
+            G4: 10,
+            G5: 9,
+          },
+          "Smile PMS": {
+            A1: 8,
+            A2: 7,
+            A3: 8,
+            A4: 7,
+            B1: 8,
+            B2: 8,
+            B3: 7,
+            B4: 7,
+            C1: 7,
+            C2: 8,
+            C3: 7,
+            C4: 8,
+            C5: 6,
+            D1: 7,
+            D2: 8,
+            D3: 6,
+            D4: 7,
+            D5: 6,
+            E1: 7,
+            E2: 7,
+            E3: 6,
+            F1: 8,
+            F2: 8,
+            F3: 7,
+            G1: 7,
+            G2: 5,
+            G3: 6,
+            G4: 6,
+            G5: 5,
+          },
+          DiHotel: {
+            A1: 7,
+            A2: 6,
+            A3: 8,
+            A4: 7,
+            B1: 9,
+            B2: 8,
+            B3: 7,
+            B4: 8,
+            C1: 7,
+            C2: 8,
+            C3: 7,
+            C4: 8,
+            C5: 6,
+            D1: 8,
+            D2: 8,
+            D3: 6,
+            D4: 7,
+            D5: 7,
+            E1: 6,
+            E2: 7,
+            E3: 6,
+            F1: 8,
+            F2: 8,
+            F3: 7,
+            G1: 7,
+            G2: 5,
+            G3: 6,
+            G4: 6,
+            G5: 5,
+          },
+          "ezFolio (ezCloud)": {
+            A1: 8,
+            A2: 8,
+            A3: 8,
+            A4: 8,
+            B1: 8,
+            B2: 8,
+            B3: 9,
+            B4: 8,
+            C1: 8,
+            C2: 8,
+            C3: 8,
+            C4: 7,
+            C5: 7,
+            D1: 9,
+            D2: 8,
+            D3: 9,
+            D4: 7,
+            D5: 8,
+            E1: 9,
+            E2: 8,
+            E3: 8,
+            F1: 9,
+            F2: 8,
+            F3: 8,
+            G1: 8,
+            G2: 6,
+            G3: 7,
+            G4: 7,
+            G5: 6,
+          },
+        },
         "table-3": [
           [
             "Chức năng & Phân hệ",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
-          ["Quản lý Đặt phòng (Reservations)", "", "", "", ""],
-          ["Quản lý Lễ tân & Buồng phòng", "", "", "", ""],
-          ["Giao diện & Trải nghiệm Người dùng (UI/UX)", "", "", "", ""],
-          ["Quản lý Giá (Rate Management)", "", "", "", ""],
-          ["Quản lý Thu ngân & Hóa đơn", "", "", "", ""],
-          ["Báo cáo, Phân tích & BI", "", "", "", ""],
-          ["Quản lý Dịch vụ Phụ trợ & Công nợ", "", "", "", ""],
-          ["Hỗ trợ Đa ngôn ngữ, Tiền tệ, Thuế", "", "", "", ""],
-          ["Group/Corporate bookings / Allotment", "", "", "", ""],
-          ["Self check-in/out & Kiosk", "", "", "", ""],
-          ["Mobile app cho quản lý & nhân viên (FO/HSK/Rpt)", "", "", "", ""],
-          ["Revenue Management nâng cao (AI/ML)", "", "", "", ""],
+          [
+            "Quản lý Đặt phòng (Reservations)",
+            "Đầy đủ FIT/Group/Allotment, Rate code & Restriction nâng cao.",
+            "Đáp ứng FIT/Group; liên kết POS/BO; quy trình VN.",
+            "Mạnh về package/combo (phòng + vé onsen + tiệc).",
+            "FIT/Group, allotment; giao diện web dễ dùng.",
+          ],
+          [
+            "Quản lý Lễ tân & Buồng phòng",
+            "FO/HSK chuyên sâu, workflow & tasking mạnh.",
+            "Đủ nghiệp vụ FO/HSK; To-Do nội bộ.",
+            "FO/SALE/HK giàu tính thực tế resort.",
+            "FO/HSK trực quan; cập nhật real-time.",
+          ],
+          [
+            "Giao diện & Trải nghiệm Người dùng (UI/UX)",
+            "UI truyền thống (bản cloud hiện đại hơn).",
+            "UI quen thuộc với nhân sự VN.",
+            "UI theo quy trình resort; có DiMobile cho quản lý.",
+            "UI hiện đại, mobile-first, dashboard rõ ràng.",
+          ],
+          [
+            "Quản lý Giá (Rate Management)",
+            "Rate theo mùa, đối tượng, gói; rule/CTA/CTD mạnh.",
+            "Rate cơ bản → nâng cao theo gói.",
+            "Rate theo package/combo; linh hoạt cho sự kiện.",
+            "Dynamic pricing; cấu hình đơn giản.",
+          ],
+          [
+            "Quản lý Thu ngân & Hóa đơn",
+            "Nhiều Folio, split/merge, multi-currency, deposit.",
+            "Thu ngân đủ sâu, liên kết kế toán.",
+            "Thu ngân + công nợ, liên kết ACC/PO/HRM.",
+            "Thu ngân nhanh; đa cổng thanh toán.",
+          ],
+          [
+            "Báo cáo, Phân tích & BI",
+            "Báo cáo đồ sộ + BI; forecasting.",
+            "Báo cáo hoạt động + tài chính cơ bản.",
+            "Báo cáo vận hành + kế toán chi tiết.",
+            "Dashboard/Report đa chiều; xuất Excel.",
+          ],
+          [
+            "Quản lý Dịch vụ Phụ trợ & Công nợ",
+            "Hỗ trợ posting đa điểm bán; interface POS.",
+            "Quản lý dịch vụ nhà hàng/spa; công nợ KH/ĐL.",
+            "Mạnh về POS/spa/ticketing; công nợ.",
+            "Quản lý dịch vụ, cross-posting; công nợ.",
+          ],
+          [
+            "Hỗ trợ Đa ngôn ngữ, Tiền tệ, Thuế",
+            "Rất mạnh, đa tiền tệ/thuế.",
+            "Đa ngôn ngữ/thuế theo cấu hình.",
+            "Hỗ trợ đa ngôn ngữ/thuế theo dự án.",
+            "Đa ngôn ngữ/tiền tệ; phù hợp outbound.",
+          ],
+          [
+            "Group/Corporate bookings / Allotment",
+            "Quản trị chain-level; allotment mạnh.",
+            "Hỗ trợ group/allotment tiêu chuẩn.",
+            "Group/Allotment + MICE (gói sự kiện).",
+            "Group/Allotment linh hoạt.",
+          ],
+          [
+            "Self check-in/out & Kiosk",
+            "Có (bản cloud & tích hợp).",
+            "Theo dự án/đối tác.",
+            "Theo dự án/đối tác.",
+            "Có (web/mobile + đối tác kiosk).",
+          ],
+          [
+            "Mobile app cho quản lý & nhân viên (FO/HSK/Rpt)",
+            "Mobile HSK/Manager (cloud).",
+            "Mobile cơ bản / web responsive.",
+            "DiMobile cho chủ/GM xem báo cáo real-time.",
+            "Ứng dụng mobile quản lý/HSK.",
+          ],
+          [
+            "Revenue Management nâng cao (AI/ML)",
+            "Có RMS & đối tác tích hợp.",
+            "Theo gói/đối tác.",
+            "Theo gói/đối tác.",
+            "Có tính năng RMS cơ bản; mở API tích hợp.",
+          ],
         ],
         "table-4": [
           [
             "Tích hợp, Công nghệ & Vận hành (kèm Security)",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
           [
             "Tích hợp Website, Booking Engine & Channel Manager",
-            "",
-            "",
-            "",
-            "",
+            "Hai chiều chặt (BE/CM lớn); chuẩn chain.",
+            "BE/CM qua đối tác; đủ dùng KH nội địa.",
+            "CMS↔PMS; OTA (Booking/Agoda...) theo tích hợp.",
+            "Có Booking Engine riêng; kết nối OTA/Google Hotel Ads.",
           ],
-          ["Tích hợp Hệ thống Nội bộ (POS, Kế toán)", "", "", "", ""],
-          ["Nền tảng Công nghệ & Chất lượng API", "", "", "", ""],
-          ["Hỗ trợ Thiết bị Ngoại vi", "", "", "", ""],
-          ["Vận hành, Backup & Bảo mật (cơ bản)", "", "", "", ""],
+          [
+            "Tích hợp Hệ thống Nội bộ (POS, Kế toán)",
+            "Tích hợp Oracle Simphony POS, ERP/kế toán.",
+            "POS/Kế toán nội bộ & bên thứ 3.",
+            "POS/ACC/PO/HRM trong bộ DiHotel; kết nối ngoài theo dự án.",
+            "Kết nối POS/Kế toán qua API; export chuẩn.",
+          ],
+          [
+            "Nền tảng Công nghệ & Chất lượng API",
+            "On-prem & Cloud; API (OHIP) phong phú, có phí.",
+            "On-prem/Hybrid; API theo module.",
+            "On-prem/Hybrid; API theo nhu cầu tích hợp.",
+            "Cloud-native (SaaS); REST API mở, tài liệu rõ.",
+          ],
+          [
+            "Hỗ trợ Thiết bị Ngoại vi",
+            "Khoá từ, keycard, tổng đài, kiosk…",
+            "Khoá từ, POS, in hoá đơn…",
+            "Khoá từ, soát vé QR, POS…",
+            "Khoá từ, POS, cổng thanh toán…",
+          ],
+          [
+            "Vận hành, Backup & Bảo mật (cơ bản)",
+            "Cloud của Oracle/DB riêng; backup & HA chuẩn DN.",
+            "Backup định kỳ; bảo trì theo hợp đồng.",
+            "Backup hàng ngày; hỗ trợ 6h–22h; nâng cấp miễn phí (theo BG).",
+            "Backup tự động; theo chuẩn DC; nâng cấp liên tục (SaaS).",
+          ],
           [
             "Chứng chỉ & Tuân thủ (ISO 27001/SOC 2/PCI/GDPR/PDPA)",
-            "",
-            "",
-            "",
-            "",
+            "Có (hệ sinh thái Oracle Cloud).",
+            "Chưa công bố trong brochure (điền theo hợp đồng).",
+            "Chưa công bố trong proposal (điền theo hợp đồng).",
+            "Chưa nêu rõ trong hồ sơ; điền khi nhà cung cấp xác nhận.",
           ],
           [
             "Mã hóa dữ liệu (TLS1.2+/1.3 in transit, AES-256 at rest)",
-            "",
-            "",
-            "",
-            "",
+            "Có, chuẩn doanh nghiệp.",
+            "Theo cấu hình dự án.",
+            "Theo cấu hình dự án.",
+            "Có (SaaS); TLS in transit; at-rest theo DC.",
           ],
-          ["Xác thực & truy cập (SSO/SAML/OAuth2, MFA, RBAC)", "", "", "", ""],
-          ["Nhật ký & Audit (immutability/retention)", "", "", "", ""],
+          [
+            "Xác thực & truy cập (SSO/SAML/OAuth2, MFA, RBAC)",
+            "SSO/SAML, MFA, RBAC đầy đủ.",
+            "RBAC; SSO/MFA theo dự án.",
+            "RBAC; SSO/MFA theo dự án.",
+            "RBAC; SSO/OAuth2; MFA theo gói.",
+          ],
+          [
+            "Nhật ký & Audit (immutability/retention)",
+            "Audit trail chi tiết; lưu trữ theo chính sách.",
+            "Audit cơ bản.",
+            "Audit vận hành & kế toán.",
+            "Audit & log tập trung (SaaS).",
+          ],
           [
             "DevSecOps & Pentest định kỳ (SDLC, patch cadence, secrets mgt)",
-            "",
-            "",
-            "",
-            "",
+            "Chu trình SDLC chuẩn Oracle; pentest định kỳ.",
+            "Theo quy trình nội bộ nhà cung cấp.",
+            "Theo quy trình nội bộ nhà cung cấp.",
+            "SDLC & phát hành phiên bản định kỳ (SaaS).",
           ],
-          ["DR/BCP (RTO/RPO, geo-redundancy)", "", "", "", ""],
-          ["Scalability (single hotel → chuỗi)", "", "", "", ""],
+          [
+            "DR/BCP (RTO/RPO, geo-redundancy)",
+            "Có DR/BCP doanh nghiệp (cloud).",
+            "Theo hợp đồng (on-prem/hybrid).",
+            "Theo hợp đồng; backup hàng ngày.",
+            "Có DR/BCP ở mức DC (SaaS).",
+          ],
+          [
+            "Scalability (single hotel → chuỗi)",
+            "Rất tốt cho chuỗi toàn cầu.",
+            "Tốt cho chuỗi nội địa.",
+            "Tốt cho chuỗi resort & tổ hợp dịch vụ.",
+            "Tốt cho chuỗi vừa & nhỏ trên cloud.",
+          ],
           [
             "Tích hợp OTA/Metasearch (Booking, Agoda, Google Hotel Ads)",
-            "",
-            "",
-            "",
-            "",
+            "Rộng, có chứng nhận với nhiều OTA/CM.",
+            "Qua đối tác; phổ biến VN.",
+            "Qua đối tác/CM; đã tích hợp thực tế.",
+            "Tích hợp phổ biến + Google Hotel Ads.",
           ],
-          ["Triển khai Cloud / On-prem / Hybrid", "", "", "", ""],
+          [
+            "Triển khai Cloud / On-prem / Hybrid",
+            "Cloud/On-prem/Hybrid.",
+            "On-prem/Hybrid; có phương án cloud.",
+            "On-prem/Hybrid.",
+            "Cloud (SaaS); có tuỳ chọn hybrid qua API.",
+          ],
         ],
         "table-5": [
           [
             "Khoản mục chi phí",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
-          ["Chi phí bản quyền/khởi tạo", "", "", "", ""],
-          ["Chi phí duy trì/thuê bao", "", "", "", ""],
-          ["Chi phí triển khai & Đào tạo", "", "", "", ""],
-          ["Mô hình thanh toán (SaaS/Perpetual/Hybrid)", "", "", "", ""],
-          ["Chi phí ẩn (API, custom report, backup, nâng cấp)", "", "", "", ""],
-          ["Chính sách cập nhật phần mềm (miễn phí/thu phí)", "", "", "", ""],
+          [
+            "Chi phí bản quyền/khởi tạo",
+            "Rất cao (theo module & số phòng).",
+            "Trung bình–Cao (license + triển khai).",
+            "Cao (license theo phòng; theo BG 11/08/2025).",
+            "SaaS: không phí bản quyền/khởi tạo (0 đ).",
+          ],
+          [
+            "Chi phí duy trì/thuê bao",
+            "Cao (bảo trì ~20–22%/năm) hoặc subscription bản cloud.",
+            "Bảo trì hàng năm/thuê bao theo gói.",
+            "Bảo trì theo hợp đồng; nâng cấp miễn phí (BG nêu).",
+            "≈ 9.688.470 đ/tháng; 116.261.640 đ/năm (sau ưu đãi 15% cho I–IV).",
+          ],
+          [
+            "Chi phí triển khai & Đào tạo",
+            "Rất cao; yêu cầu onsite dài ngày.",
+            "Trung bình; onsite + online.",
+            "Cao; phạm vi rộng (PMS + POS + ACC...).",
+            "38.800.000 đ (một lần, sau ưu đãi 20% cho V.3).",
+          ],
+          [
+            "Mô hình thanh toán (SaaS/Perpetual/Hybrid)",
+            "Perpetual/Subscription (Cloud).",
+            "Perpetual/Hybrid.",
+            "Perpetual/Hybrid.",
+            "SaaS.",
+          ],
+          [
+            "Chi phí ẩn (API, custom report, backup, nâng cấp)",
+            "API (OHIP) & tuỳ biến thu phí; backup/DR theo gói.",
+            "Module/tuỳ biến/API theo báo giá.",
+            "Module mở rộng/tuỳ biến theo báo giá.",
+            "Thường đã gồm nâng cấp; API mở (có thể tính phí theo mức dùng).",
+          ],
+          [
+            "Chính sách cập nhật phần mềm (miễn phí/thu phí)",
+            "Theo gói bảo trì/Subscription.",
+            "Theo phiên bản/hợp đồng.",
+            "Nâng cấp miễn phí (BG ghi).",
+            "Cập nhật liên tục & miễn phí (SaaS).",
+          ],
         ],
         "table-6": [
           [
             "Triển khai & Hỗ trợ",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
-          ["Quy trình & Phương pháp triển khai", "", "", "", ""],
-          ["Chất lượng Đào tạo & Tài liệu", "", "", "", ""],
-          ["Kênh hỗ trợ & SLA", "", "", "", ""],
-          ["Uptime/SLO & thời gian bảo trì", "", "", "", ""],
-          ["Re-training khi nâng cấp phiên bản", "", "", "", ""],
+          [
+            "Quy trình & Phương pháp triển khai",
+            "Chuẩn Oracle, kiểm soát thay đổi chặt.",
+            "Agile, theo từng module.",
+            "Agile + onsite, gắn nghiệp vụ resort/onsen.",
+            "Agile/remote-first, nhanh và lặp.",
+          ],
+          [
+            "Chất lượng Đào tạo & Tài liệu",
+            "Đào tạo chuyên sâu onsite + tài liệu chuẩn.",
+            "Onsite/online, tài liệu tiếng Việt.",
+            "Onsite, tập trung cả vận hành & kế toán.",
+            "Online/onsite, video & KB; re-training định kỳ.",
+          ],
+          [
+            "Kênh hỗ trợ & SLA",
+            "Ticket Oracle + hotline.",
+            "Ticket/điện thoại/remote.",
+            "Hỗ trợ 6h–22h tất cả các ngày; ticket/điện thoại.",
+            "Ticket/email/chat; hỗ trợ 24/7 theo gói.",
+          ],
+          [
+            "Uptime/SLO & thời gian bảo trì",
+            "Theo SLA doanh nghiệp (Cloud).",
+            "Theo hợp đồng.",
+            "Theo hợp đồng.",
+            "SaaS: cam kết uptime theo chính sách nhà cung cấp.",
+          ],
+          [
+            "Re-training khi nâng cấp phiên bản",
+            "Có theo đợt nâng cấp.",
+            "Có (khi đổi phiên bản).",
+            "Có (đã nêu trong triển khai).",
+            "Có, định kỳ theo roadmap.",
+          ],
         ],
         "table-8-swot": [
           [
             "Phân tích",
-            "Nhà Cung Cấp 1",
-            "Nhà Cung Cấp 2",
-            "Nhà Cung Cấp 3",
-            "Nhà Cung Cấp 4",
+            "Oracle OPERA",
+            "Smile PMS",
+            "DiHotel",
+            "ezFolio (ezCloud)",
           ],
-          ["Strengths (Điểm mạnh)", "", "", "", ""],
-          ["Weaknesses (Điểm yếu)", "", "", "", ""],
-          ["Opportunities (Cơ hội)", "", "", "", ""],
-          ["Threats (Thách thức)", "", "", "", ""],
+          [
+            "Strengths (Điểm mạnh)",
+            "Tính năng & ổn định đẳng cấp chuỗi 5*, bảo mật & tích hợp mạnh.",
+            "Quy trình phù hợp thị trường VN; FO+POS+Kế toán đồng bộ.",
+            "Bao phủ PMS+POS+ACC+PO+HRM; mạnh package/onsen/ticketing.",
+            "Cloud-native, UI/UX tốt, API mở; chi phí dễ tiếp cận.",
+          ],
+          [
+            "Weaknesses (Điểm yếu)",
+            "Chi phí rất cao; học & vận hành phức tạp; thời gian triển khai dài.",
+            "API mở & chứng chỉ bảo mật chưa nổi bật công khai.",
+            "Phụ thuộc tuỳ biến theo dự án; chuẩn bảo mật còn cần xác nhận.",
+            "Một số tính năng chuyên sâu của 5* có thể chưa sâu bằng OPERA.",
+          ],
+          [
+            "Opportunities (Cơ hội)",
+            "Phù hợp dự án 5*, chuỗi lớn cần tiêu chuẩn quốc tế.",
+            "Nâng cấp/hợp nhất hệ thống tại các khách sạn nội địa.",
+            "Tổ hợp dịch vụ (resort + onsen + vé) cần quản trị hợp nhất.",
+            "Chuyển đổi số cloud cho chuỗi vừa & nhỏ, mở rộng OTA/Ads.",
+          ],
+          [
+            "Threats (Thách thức)",
+            "Cạnh tranh PMS cloud chi phí thấp & UI hiện đại.",
+            "Cạnh tranh từ các PMS cloud & quốc tế.",
+            "Cạnh tranh với PMS cloud/API mở; yêu cầu bảo mật cao dần.",
+            "Cạnh tranh tính năng chuyên sâu & yêu cầu chứng chỉ quốc tế.",
+          ],
         ],
       };
 
@@ -430,7 +815,6 @@
           const vendors = sampleData.vendors;
           const scores = sampleData["table-2-scores"];
 
-          // Trọng số đã cân bằng lại để tổng = 100 (thêm nhóm G=10)
           const structure = [
             {
               key: "A",
@@ -658,7 +1042,7 @@
           ];
 
           let headHTML = `<thead><tr><th>Tiêu chí đánh giá</th><th>Trọng số</th>`;
-          vendors.forEach(
+          sampleData.vendors.forEach(
             (v) => (headHTML += `<th contenteditable="true">${v}</th>`)
           );
           headHTML += `</tr></thead>`;
@@ -668,10 +1052,12 @@
             bodyHTML += `<tr class="bg-emerald-100 text-emerald-900 font-bold text-base border-t-2 border-gray-300">
               <td>${group.title}</td>
               <td data-weight-group="${group.key}">${group.weight}</td>
-              ${vendors
+              ${sampleData.vendors
                 .map(
-                  (v, i) =>
-                    `<td class="group-score-display bg-emerald-200" data-score-group="${group.key}" data-vendor-index="${i}"><span class="score">0.0</span> <span class="max-score">/ ${group.weight}</span></td>`
+                  (_, i) =>
+                    `<td class="group-score-display bg-emerald-200" data-score-group="${group.key}" data-vendor-index="${i}">
+                   <span class="score">0.0</span> <span class="max-score">/ ${group.weight}</span>
+                 </td>`
                 )
                 .join("")}
             </tr>`;
@@ -679,34 +1065,32 @@
               bodyHTML += `<tr>
                 <td class="pl-8">${item.title}</td>
                 <td data-weight="${item.key}">${item.weight}</td>
-                ${vendors
+                ${sampleData.vendors
                   .map(
                     (v, i) =>
                       `<td data-score="${
                         item.key
                       }" data-vendor-index="${i}" contenteditable="true">${
-                        scores[v]?.[item.key] || ""
+                        (sampleData["table-2-scores"][v] || {})[item.key] ?? ""
                       }</td>`
                   )
                   .join("")}
               </tr>`;
               if (item.basis) {
                 bodyHTML += `<tr><td colspan="${
-                  vendors.length + 2
-                }" class="evaluation-basis" data-basis-for="${
-                  item.key
-                }"><strong>Cơ sở:</strong></td></tr>`;
+                  sampleData.vendors.length + 2
+                }" class="evaluation-basis" data-basis-for="${item.key}">
+                  <strong>Cơ sở:</strong></td></tr>`;
               }
             });
           });
           bodyHTML += `<tr class="font-bold bg-emerald-700 text-white text-lg">
             <td>TỔNG CỘNG (Thang 100)</td><td id="total-weight">100</td>
-            ${vendors
-              .map((v, i) => `<td id="total-score-${i}">0.0</td>`)
+            ${sampleData.vendors
+              .map((_, i) => `<td id="total-score-${i}">0.0</td>`)
               .join("")}
           </tr>`;
           bodyHTML += `</tbody>`;
-
           table.innerHTML = headHTML + bodyHTML;
         }
 
@@ -799,7 +1183,6 @@
                 `td[data-score-group="${gk}"][data-vendor-index="${vi}"] .score`
               );
               if (cell) cell.innerText = gScore.toFixed(1);
-
               const gWeight = getCellValue(`td[data-weight-group="${gk}"]`);
               groupScores[vi][gk] = gWeight > 0 ? (gScore / gWeight) * 10 : 0;
               total += gScore;
@@ -830,45 +1213,26 @@
             A2: { tableId: "table-1", term: "Số lượng khách hàng", tab: 1 },
             A3: { tableId: "table-1-5", term: "Số lượng nhân sự", tab: 2 },
             A4: { tableId: "table-1", term: "Năng lực Quản lý Chuỗi", tab: 1 },
-
             B1: { tableId: "table-3", term: "Quản lý Đặt phòng", tab: 4 },
             B2: { tableId: "table-3", term: "Lễ tân", tab: 4 },
             B3: { tableId: "table-3", term: "Giao diện & Trải nghiệm", tab: 4 },
-            B4: {
-              tableId: "table-3",
-              term: "Group/Corporate bookings",
-              tab: 4,
-            },
-
+            B4: { tableId: "table-3", term: "Group/Corporate", tab: 4 },
             C1: { tableId: "table-3", term: "Quản lý Giá", tab: 4 },
             C2: { tableId: "table-3", term: "Thu ngân", tab: 4 },
             C3: { tableId: "table-3", term: "Báo cáo, Phân tích", tab: 4 },
             C4: { tableId: "table-3", term: "Dịch vụ Phụ trợ", tab: 4 },
-            C5: {
-              tableId: "table-3",
-              term: "Revenue Management nâng cao",
-              tab: 4,
-            },
-
+            C5: { tableId: "table-3", term: "Revenue Management", tab: 4 },
             D1: { tableId: "table-4", term: "Booking Engine", tab: 5 },
-            D2: {
-              tableId: "table-4",
-              term: "Hệ thống Nội bộ (POS, Kế toán)",
-              tab: 5,
-            },
+            D2: { tableId: "table-4", term: "Hệ thống Nội bộ", tab: 5 },
             D3: { tableId: "table-4", term: "Nền tảng Công nghệ", tab: 5 },
             D4: { tableId: "table-4", term: "Thiết bị Ngoại vi", tab: 5 },
             D5: { tableId: "table-4", term: "Scalability", tab: 5 },
-
             E1: { tableId: "table-5", term: "Chi phí bản quyền", tab: 6 },
             E2: { tableId: "table-5", term: "Chi phí duy trì", tab: 6 },
             E3: { tableId: "table-5", term: "Chi phí ẩn", tab: 6 },
-
             F1: { tableId: "table-1-5", term: "Thời gian triển khai", tab: 2 },
             F2: { tableId: "table-6", term: "Đào tạo", tab: 7 },
             F3: { tableId: "table-6", term: "Uptime", tab: 7 },
-
-            // Nhóm G – Security
             G1: { tableId: "table-4", term: "Mã hóa dữ liệu", tab: 5 },
             G2: { tableId: "table-4", term: "Chứng chỉ & Tuân thủ", tab: 5 },
             G3: { tableId: "table-4", term: "Xác thực & truy cập", tab: 5 },
@@ -922,13 +1286,14 @@
                 if (t.includes("cao")) return 8;
                 if (t.includes("trung bình")) return 6;
                 if (t.includes("thấp")) return 3;
+                if (t.includes("không phí") || t.includes("0 đ")) return 0;
+                if (t.includes("thuê bao")) return 5;
                 return 0;
               })
             : Array(vendorNames.length).fill(0);
 
           Object.values(charts).forEach((ch) => ch.destroy && ch.destroy());
 
-          // Summary table
           const summaryTable = document.querySelector("#table-7-summary");
           if (summaryTable) {
             const vendorData = vendorNames
@@ -1031,7 +1396,7 @@
                         total += (groupScores[i]?.[k] ?? 0) * (weights[k] || 0);
                         totalW += weights[k] || 0;
                       });
-                      return totalW > 0 ? (total / totalW) * 10 : 0;
+                      return totalW > 0 ? total / totalW : 0;
                     }),
                   },
                 ],
@@ -1045,7 +1410,6 @@
           };
 
           const palette = ["#3b82f6", "#10b981", "#f97316", "#8b5cf6"];
-
           createGroupChart(
             "competencyChart",
             "Điểm Năng lực NCC",
@@ -1119,10 +1483,7 @@
                 XLSX.utils.book_append_sheet(wb, ws, sheetNames[idx]);
               }
             });
-            XLSX.writeFile(
-              wb,
-              `So_Sanh_Nha_Cung_Cap_PMS_SecurityComplete.xlsx`
-            );
+            XLSX.writeFile(wb, `So_Sanh_Nha_Cung_Cap_PMS_Filled.xlsx`);
           });
 
         loadAllData();
